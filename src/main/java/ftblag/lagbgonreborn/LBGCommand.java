@@ -38,7 +38,7 @@ public class LBGCommand extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/bgon : Shows help for using Lag'B'Gon Reborn";
+        return "/bgon : 显示使用的帮助";
     }
 
     @Override
@@ -54,39 +54,39 @@ public class LBGCommand extends CommandBase {
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length == 0) {
-            LagBGonReborn.sendMsg(sender, "/bgon toggleitem: Toggles the blacklist status of held item.");
-            LagBGonReborn.sendMsg(sender, "/bgon toggleentity <modid:name>: Toggles the blacklist status of the named entity.");
-            LagBGonReborn.sendMsg(sender, "/bgon clear: Clears all items/entities from the world not on blacklist.");
-            LagBGonReborn.sendMsg(sender, "/bgon interval <minutes>: Sets the interval for automatic running of /bgon clear. The interval is actually 1 minute longer, as it includes a 1 minute warning.");
-            LagBGonReborn.sendMsg(sender, "/bgon toggleauto: Toggles automatic clearing of entities, and unloading of chunks.");
-            LagBGonReborn.sendMsg(sender, "/bgon listitems: Lists the items in the blacklist.");
-            LagBGonReborn.sendMsg(sender, "/bgon listentities: Lists the entities in the blacklist.");
-            LagBGonReborn.sendMsg(sender, "/bgon settps <target tps>: Sets the maximum TPS for unloading chunks.");
-            LagBGonReborn.sendMsg(sender, "/bgon unload: Unloads unused chunks.");
-            LagBGonReborn.sendMsg(sender, "/bgon blacklist: Switches between using blacklist and whitelist.");
-            LagBGonReborn.sendMsg(sender, "/bgon togglepolice: Toggles Breeding policing.");
-            LagBGonReborn.sendMsg(sender, "/bgon setbreedlimit <amount>: Sets the limit for breeding.");
-            LagBGonReborn.sendMsg(sender, "/bgon scanentities: Lists nearby entities,by name, for blacklisting.");
-            LagBGonReborn.sendMsg(sender, "/bgon maxperchunk <amount>: Sets maximum entities to spawn per chunk.");
-            LagBGonReborn.sendMsg(sender, "/bgon togglenamedremove: Toggle Named Remove.");
+            LagBGonReborn.sendMsg(sender, "/bgon toggleitem: 将手持物品加入黑名单。");
+            LagBGonReborn.sendMsg(sender, "/bgon toggleentity <modid:name 生物名>: 将生物加入黑名单。");
+            LagBGonReborn.sendMsg(sender, "/bgon clear: 清除黑名单中的物品和生物。");
+            LagBGonReborn.sendMsg(sender, "/bgon interval <分钟>: 设置自动清理的间隔时间，请大于一分钟。");
+            LagBGonReborn.sendMsg(sender, "/bgon toggleauto: 打开和关闭自动清理。");
+            LagBGonReborn.sendMsg(sender, "/bgon listitems: 列出黑名单中的物品。");
+            LagBGonReborn.sendMsg(sender, "/bgon listentities: 列出黑名单中的生物。");
+            LagBGonReborn.sendMsg(sender, "/bgon settps <tps>: 设置低于多少TPS自动卸载区块。");
+            LagBGonReborn.sendMsg(sender, "/bgon unload: 卸载未使用区块。");
+            LagBGonReborn.sendMsg(sender, "/bgon blacklist: 切换黑名单和白名单模式。");
+            LagBGonReborn.sendMsg(sender, "/bgon togglepolice: 启动生物监视器。");
+            LagBGonReborn.sendMsg(sender, "/bgon setbreedlimit <数量>: 设置生物繁殖数量限制。");
+            LagBGonReborn.sendMsg(sender, "/bgon scanentities: 列出附近生物名单。");
+            LagBGonReborn.sendMsg(sender, "/bgon maxperchunk <数量>: 设置每个区块的最大生物数量。");
+            LagBGonReborn.sendMsg(sender, "/bgon togglenamedremove: 切换名为“删除”。");
         } else if (args.length == 1) {
             if (args[0].equals("blacklist")) {
                 config.toggleBlacklist();
-                LagBGonReborn.sendMsg(sender, (LBGConfig.blacklist ? "While" : "Black") + "list enabled.");
+                LagBGonReborn.sendMsg(sender, (LBGConfig.blacklist ? "白" : "黑") + "名单启用");
             } else if (args[0].equals("scanentities")) {
                 if (!(sender instanceof EntityPlayer)) {
-                    LagBGonReborn.sendMsg(sender, "Only for players!");
+                    LagBGonReborn.sendMsg(sender, "只有玩家可以执行！");
                     return;
                 }
                 scanEntities((EntityPlayer) sender);
             } else if (args[0].equals("togglepolice")) {
                 config.togglePolice();
-                LagBGonReborn.sendMsg(sender, "Breeding policing " + (LBGConfig.policeCrowd ? "en" : "dis") + "abled.");
+                LagBGonReborn.sendMsg(sender, "生物监视器" + (LBGConfig.policeCrowd ? "启动" : "停止") + "。");
             } else if (args[0].equals("unload")) {
                 unloadChunks();
             } else if (args[0].equals("listitems")) {
                 StringBuilder line = new StringBuilder();
-                LagBGonReborn.sendMsg(sender, "Item Blacklist contains:");
+                LagBGonReborn.sendMsg(sender, "物品名列表：");
                 for (String item : LBGConfig.itemBlacklist) {
                     if (line.length() > 40) {
                         LagBGonReborn.sendMsg(sender, line.toString());
@@ -100,7 +100,7 @@ public class LBGCommand extends CommandBase {
                 }
             } else if (args[0].equals("listentities")) {
                 StringBuilder line = new StringBuilder();
-                LagBGonReborn.sendMsg(sender, "Entity Blacklist contains:");
+                LagBGonReborn.sendMsg(sender, "生物名列表:");
                 for (String item : LBGConfig.entityBlacklist) {
                     if (line.length() > 40) {
                         LagBGonReborn.sendMsg(sender, line.toString());
@@ -114,62 +114,62 @@ public class LBGCommand extends CommandBase {
                 }
             } else if (args[0].equals("toggleauto")) {
                 config.toggleAuto();
-                LagBGonReborn.sendMsg(sender, "Automatic clearing " + (LBGConfig.automaticRemoval ? "en" : "dis") + "abled.");
+                LagBGonReborn.sendMsg(sender, "自动清理 " + (LBGConfig.automaticRemoval ? "启用" : "停止") + "。");
             } else if (args[0].equals("toggleitem")) {
                 if (!(sender instanceof EntityPlayer)) {
-                    LagBGonReborn.sendMsg(sender, "Only for players!");
+                    LagBGonReborn.sendMsg(sender, "只有玩家可以执行！");
                     return;
                 }
                 EntityPlayer plr = (EntityPlayer) sender;
                 if (plr.getHeldItemMainhand().isEmpty()) {
-                    LagBGonReborn.sendMsg(sender, "You must have an item selected");
+                    LagBGonReborn.sendMsg(sender, "你必须手持一个物品。");
                     return;
                 }
                 Item item = plr.getHeldItemMainhand().getItem();
                 config.toggleItem(item);
                 boolean hav = !config.isBlacklisted(plr.getHeldItemMainhand().getItem());
                 String nam = item.getItemStackDisplayName(plr.getHeldItemMainhand());
-                LagBGonReborn.sendMsg(sender, nam + (hav ? " removed from" : " added to") + " blacklist.");
+                LagBGonReborn.sendMsg(sender, nam + (hav ? " 从名单删除" : " 添加到名单") + "。");
             } else if (args[0].equals("clear")) {
                 if (!DimensionManager.getWorld(0).isRemote) {
                     doClear();
                 }
             } else if (args[0].equals("togglenamedremove")) {
                 config.toggleNamedRemove();
-                LagBGonReborn.sendMsg(sender, "Named Remove " + (LBGConfig.namedRemove ? "en" : "dis") + "abled.");
+                LagBGonReborn.sendMsg(sender, "命名为删除 " + (LBGConfig.namedRemove ? "启用" : "停止") + "。");
             } else {
-                LagBGonReborn.sendMsg(sender, "Cmd not found!");
+                LagBGonReborn.sendMsg(sender, "命令没有找到！");
             }
         } else if (args.length == 2) {
             if (args[0].equals("maxperchunk")) {
                 int max = Integer.parseInt(args[1]);
                 config.changeMaxPerChunk(max);
-                LagBGonReborn.sendMsg(sender, "New Maximium spawns per chunk: " + max);
+                LagBGonReborn.sendMsg(sender, "每个块产生新的最大值" + max);
             } else if (args[0].equals("setbreedlimit")) {
                 int limit = Integer.parseInt(args[1]);
                 config.changeCrowdLimit(limit);
-                LagBGonReborn.sendMsg(sender, "Breeding limit set to: " + LBGConfig.crowdLimit);
+                LagBGonReborn.sendMsg(sender, "繁殖限制设置为： " + LBGConfig.crowdLimit);
             } else if (args[0].equals("toggleentity")) {
                 config.toggleEntity(args[1]);
                 boolean hav = config.isBlacklisted(args[1]);
-                LagBGonReborn.sendMsg(sender, args[1] + " has been " + (hav ? "added to" : "removed from") + " the blacklist.");
+                LagBGonReborn.sendMsg(sender, args[1] + " 已经" + (hav ? "添加到名单" : "从名单移除") + "。");
                 LBGConfig.checkEntityBlacklist();
             } else if (args[0].equals("interval")) {
                 int newInterval = Integer.parseInt(args[1]);
                 config.changeInterval(newInterval);
                 LBGEvents.nextClear = System.currentTimeMillis() + (LBGConfig.timeInterval * 1000 * 60);
-                LagBGonReborn.sendMsg(sender, "Automatic removal interval set to: " + newInterval);
+                LagBGonReborn.sendMsg(sender, "自动清理间隔设置为： " + newInterval);
             } else if (args[0].equals("unload")) {
                 int newInterval = Integer.parseInt(args[1]);
                 config.changeUnload(newInterval);
                 nextUnload = System.currentTimeMillis() + (LBGConfig.timeUnload * 1000 * 60);
-                LagBGonReborn.sendMsg(sender, "Automatic removal unload interval set to: " + newInterval);
+                LagBGonReborn.sendMsg(sender, "自动清除卸载间隔设置为： " + newInterval);
             } else if (args[0].equals("settps")) {
                 int newTPS = Integer.parseInt(args[1]);
                 config.changeTPSForUnload(newTPS);
-                LagBGonReborn.sendMsg(sender, "New TPS minimum set to: " + newTPS);
+                LagBGonReborn.sendMsg(sender, "新的TPS最小值设置为:" + newTPS);
             } else {
-                LagBGonReborn.sendMsg(sender, "Cmd not found!");
+                LagBGonReborn.sendMsg(sender, "命令没有找到！");
             }
         } else {
             if (args[0].equals("toggleentity")) {
@@ -183,9 +183,9 @@ public class LBGCommand extends CommandBase {
                 name.replace(name.length() - 1, name.length(), "");
                 config.toggleEntity(name.toString());
                 boolean hav = config.isBlacklisted(name.toString());
-                LagBGonReborn.sendMsg(sender, name.toString() + " has been " + (hav ? "added to" : "removed from") + " the blacklist.");
+                LagBGonReborn.sendMsg(sender, name.toString() + " 已经" + (hav ? "添加到名单" : "从名单移除") + "。");
             } else {
-                LagBGonReborn.sendMsg(sender, "Cmd not found!");
+                LagBGonReborn.sendMsg(sender, "命令没有找到！");
             }
         }
     }
@@ -201,7 +201,7 @@ public class LBGCommand extends CommandBase {
                 continue;
             }
             if (world.isRemote) {
-                System.out.println("How?!?");
+                System.out.println("怎么样？！？");
             }
             Iterator<Entity> iter = world.loadedEntityList.iterator();
             Entity obj;
@@ -235,7 +235,7 @@ public class LBGCommand extends CommandBase {
             }
             toRemove.clear();
         }
-        FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString("Lag'B'Gon has removed " + itemsRemoved + " items and " + entitiesRemoved + " entities"));
+            FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString("[减少卡顿] 以清理" + itemsRemoved + "个物品" + entitiesRemoved + "个生物。"));
     }
 
     @Override
@@ -330,7 +330,7 @@ public class LBGCommand extends CommandBase {
         }
 
         StringBuilder line = new StringBuilder();
-        LagBGonReborn.sendMsg(plr, "Nearby Entities");
+        LagBGonReborn.sendMsg(plr, "附近的生物");
         for (String item : entityNames) {
             if (line.length() > 40) {
                 LagBGonReborn.sendMsg(plr, line.toString());

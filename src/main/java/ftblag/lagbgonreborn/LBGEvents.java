@@ -70,7 +70,7 @@ public class LBGEvents {
             } else {
                 nextClear = System.currentTimeMillis() + 1000 * 60;
                 String style = LBGConfig.redBoldWarning ? TextFormatting.RED.toString() + TextFormatting.BOLD : "";
-                FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString(style + "Lag'B'Gon will be removing items in 1 minute!"));
+                FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString(style + "[减少卡顿] 将在1分钟内移除物品!"));
                 warned = true;
             }
         }
